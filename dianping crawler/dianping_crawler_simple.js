@@ -2,7 +2,9 @@ var http = require('http');
 var Promise = require('bluebird');
 var cheerio = require('cheerio');
 
-var baseUrl = "http://t.dianping.com/list/tianjin-category_1?pageIndex=";
+//var baseUrl = "http://t.dianping.com/list/tianjin-category_1?pageIndex="; 
+var baseUrl = "http://vchart.yinyuetai.com/vchart/trends?area=";
+var type = ['ML', 'HT', 'US', 'KR', 'JP'];
 
 var maxPageNum = 5;
 
@@ -31,9 +33,9 @@ function getPage (url) {
 
 var fetchPageArray = [];//Promise对象数组
 
-for(var i = 0; i < maxPageNum; i++){
-	fetchPageArray.push(getPage(baseUrl + i));
-}
+type.forEach( function(element) {
+	fetchPageArray.push(getPage(baseUrl + element));
+});
 
 Promise.all(fetchPageArray)
 	   .then(function(pages){
